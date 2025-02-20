@@ -13,7 +13,6 @@ classDiagram
         +cadastrar() void
         +consultar() void
         +excluir() void
-        +atualizar(nome: string, preco: double, descricao: string, ingredientes: List~IngredienteQuantidade~) void
         +obterIngredientes() void
         +calcularCusto() double
     }
