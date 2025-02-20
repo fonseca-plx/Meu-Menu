@@ -19,7 +19,7 @@ public class IngredienteQuantidade {
         return quantidade;
     }
 
-    // apenas a quantidade do ingrediente pode ser alterada
+    // apenas a quantidade do ingrediente pode ser alterada (um prato pode ter uma alteração em sua receita)
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
