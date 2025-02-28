@@ -19,6 +19,7 @@ classDiagram
         -List~IngredienteQuantidade~ ingredientes
         +obterIngredientes() void
         +calcularCusto() double
+        +consultar() void
     }
 
     class Ingrediente {
@@ -75,9 +76,18 @@ classDiagram
         +reduzirQuantidade() void
     }
 
+    class StatusPedido {
+        <<enum>>
+        PENDENTE
+        EM_PREPARACAO
+        PRONTO
+        ENTREGUE
+    }
+
     Prato "N" -- "N" IngredienteQuantidade : possui
     IngredienteQuantidade "N" -- "1" Ingrediente : referencia
     Pedido "N" -- "M" Prato : contém
+    Pedido "1" -- "1" StatusPedido : possui
     Cliente "1" -- "N" Pedido : realiza
     Estoque "1" -- "N" ItemEstoque : gerencia
     Ingrediente "N" -- "1" ItemEstoque : corresponde
