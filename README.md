@@ -4,15 +4,19 @@
 
 ```mermaid
 classDiagram
+    class Menu {
+        -List~Prato~ pratos
+        +adicionarPrato(prato: Prato) void
+        +excluirPrato(prato: Prato) void
+        +consultarMenu() void
+    }
+
     class Prato {
         -int id
         -String nome
         -double preco
         -String descricao
         -List~IngredienteQuantidade~ ingredientes
-        +cadastrar() void
-        +consultar() void
-        +excluir() void
         +obterIngredientes() void
         +calcularCusto() double
     }
@@ -29,14 +33,18 @@ classDiagram
         -double quantidade
     }
 
+    class ListaClientes {
+        -List~Cliente~ clientes
+        +cadastrarCliente(cliente: Cliente) void
+        +excluirCliente(cliente: Cliente) void
+        +consultarListaClientes() void
+    }
+
     class Cliente {
         -int id
         -String nome
         -String telefone
         -String email
-        +cadastrar() void
-        +consultar() Cliente
-        +excluir() void
     }
 
     class Pedido {
