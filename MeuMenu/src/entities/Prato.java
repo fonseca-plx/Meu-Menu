@@ -11,6 +11,14 @@ public class Prato {
 
     private List<IngredienteQuantidade> ingredientes; // lista de ingredientes com suas respectivas quantidades
 
+    // o usuário pode optar por criar um prato sem passar a descrição no momento em que criar o prato
+    public Prato(int id, String nome, double preco, List<IngredienteQuantidade> ingredientes) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.ingredientes = ingredientes;
+    }
+
     public Prato(int id, String nome, double preco, String descricao, List<IngredienteQuantidade> ingredientes) {
         this.id = id;
         this.nome = nome;
@@ -70,4 +78,6 @@ public class Prato {
         System.out.println("Custo de produção: R$ " + calcularCusto());
         obterIngredientes();
     }
+
+    // TODO criar um método que permita atualizar as quantidades de um determinado ingrediente em um prato e um método que permita adicionar um novo ingrediente a lista
 }

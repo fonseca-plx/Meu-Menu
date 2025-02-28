@@ -7,13 +7,13 @@ public class Pedido {
     private int id;
     private Cliente cliente;
     private List<Prato> pratos;
-    // private double total;
+    private double total;
 
     public Pedido(int id, Cliente cliente, List<Prato> pratos) {
         this.id = id;
         this.cliente = cliente;
         this.pratos = pratos;
-        // this.total = calcularTotal();
+        this.total = calcularTotal();
     }
 
     // calcular o total do pedido
@@ -25,7 +25,7 @@ public class Pedido {
         return soma;
     }
 
-    // Método para exibir os detalhes do pedido
+    // exibir os detalhes do pedido
     public void consultar() {
         System.out.println("ID do Pedido: " + id);
         System.out.println("Cliente: " + cliente.getNome());
@@ -33,6 +33,6 @@ public class Pedido {
     }
 
     // TODO adicionar metodos adicionarPrato(), removerPrato() e criar enum para gerenciar status do pedido
-
-    // Criar objeto do tipo Menu que permita adicionar pratos que já existem no cardapio ao Pedido
+    // Criar objeto do tipo Menu que permita adicionar pratos que já existem no cardapio ao Pedido buscando pelo id ou nome do prato e remover lista de pratos
+    // Ao adicionar novo prato ao pedido ou remover prato do pedido deve-se atualizar o atributo total
 }
