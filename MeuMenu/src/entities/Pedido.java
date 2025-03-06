@@ -1,5 +1,8 @@
 package entities;
 
+import entities.enums.StatusPedido;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
@@ -10,21 +13,41 @@ public class Pedido {
     private double total;
     private StatusPedido status;
 
-    public Pedido(int id, Cliente cliente, List<Prato> pratos) {
+    // Construtor que permite criar um pedido informando uma lista de IDs de pratos já adicionados ao Menu
+    public Pedido(int id, Cliente cliente, Menu menu, List<Integer> idsPratos) {
         this.id = id;
         this.cliente = cliente;
-        this.pratos = pratos;
-        this.total = calcularTotal();
-        this.status = StatusPedido.PENDENTE; // status inicial
+        this.pratos = new ArrayList<>();
+        this.status = StatusPedido.PENDENTE;
+        for (Integer idPrato : idsPratos) {
+            Prato prato = menu.buscarPratoPorId(idPrato);
+            if (prato != null) {
+                pratos.add(prato);
+            }
+        }
+        calcularTotal();
+    }
+
+    // Construtor que permite que um pedido seja realizado por um cliente não informado
+    public Pedido(int id, Menu menu, List<Integer> idsPratos) {
+        this.id = id;
+        this.pratos = new ArrayList<>();
+        this.status = StatusPedido.PENDENTE;
+        for (Integer idPrato : idsPratos) {
+            Prato prato = menu.buscarPratoPorId(idPrato);
+            if (prato != null) {
+                pratos.add(prato);
+            }
+        }
+        calcularTotal();
     }
 
     // calcular o total do pedido
-    public double calcularTotal() {
-        double soma = 0.0;
+    private void calcularTotal() {
+        total = 0.0;
         for (Prato prato : pratos) {
-            soma += prato.getPreco();
+            total += prato.getPreco();
         }
-        return soma;
     }
 
     public void alterarStatus(StatusPedido novoStatus) {
@@ -38,9 +61,41 @@ public class Pedido {
         System.out.println("Cliente: " + cliente.getNome());
         System.out.println("Total: R$ " + total);
         System.out.println("Status: " + status);
+        System.out.println("Detalhes do pedido:");
+        for (Prato prato : pratos) {
+            System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
+        }
     }
 
-    // TODO adicionar metodos adicionarPrato(), removerPrato() e criar enum para gerenciar status do pedido
-    // Criar objeto do tipo Menu que permita adicionar pratos que já existem no cardapio ao Pedido buscando pelo id ou nome do prato e remover lista de pratos
-    // Ao adicionar novo prato ao pedido ou remover prato do pedido deve-se atualizar o atributo total
+    // adicionar um prato ao pedido a partir do menu
+    public void adicionarPrato(Menu menu, int idPrato) {
+        Prato prato = menu.buscarPratoPorId(idPrato);
+        if (prato != null) {
+            pratos.add(prato);
+            total += prato.getPreco();
+            System.out.println("Prato adicionado ao pedido: " + prato.getNome());
+        } else {
+            System.out.println("Prato não encontrado no menu.");
+        }
+    }
+
+    // remover um prato do pedido
+    public void removerPrato(int idPrato) {
+        Prato pratoParaRemover = null;
+        for (Prato prato : pratos) {
+            if (prato.getId() == idPrato) {
+                pratoParaRemover = prato;
+                break;
+            }
+        }
+        if (pratoParaRemover != null) {
+            pratos.remove(pratoParaRemover);
+            total -= pratoParaRemover.getPreco();
+            System.out.println("Prato removido do pedido: " + pratoParaRemover.getNome());
+        } else {
+            System.out.println("Prato não encontrado no pedido.");
+        }
+    }
+
+    // TODO implementar mesma lógica dos pratos para os clientes (buscar o cliente que realizou o pedido na lista de clientes)
 }

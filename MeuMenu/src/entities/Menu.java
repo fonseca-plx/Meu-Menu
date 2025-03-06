@@ -47,4 +47,24 @@ public class Menu {
             }
         }
     }
+
+    // Buscar um prato pelo nome
+    public Prato buscarPratoPorNome(String nome) {
+        for (Prato prato : pratos) {
+            if (prato.getNome().equalsIgnoreCase(nome)) {
+                return prato;
+            }
+        }
+        return null;
+    }
+
+    // Buscar um prato pelo ID
+    public Prato buscarPratoPorId(int id) {
+        for (Prato prato : pratos) {
+            if (prato.getId() == id) {
+                return prato;
+            }
+        }
+        return null;
+    }
 }
