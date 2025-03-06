@@ -4,7 +4,7 @@ package entities;
 public class IngredienteQuantidade {
 
     private Ingrediente ingrediente;
-    private double quantidade; // quantidade desse ingrediente para um determinado prato
+    private double quantidade; // quantidade desse ingrediente para um determinado prato ou para o estoque
 
     public IngredienteQuantidade(Ingrediente ingrediente, double quantidade) {
         this.ingrediente = ingrediente;
@@ -19,8 +19,8 @@ public class IngredienteQuantidade {
         return quantidade;
     }
 
-    // apenas a quantidade do ingrediente pode ser alterada (um prato pode ter uma alteração em sua receita)
-    public void setQuantidade(double quantidade) {
-        this.quantidade = quantidade;
+    // incrementar a quantidade de um ingrediente no estoque ou em um prato
+    public void atualizarQuantidade(double quantidade) {
+        this.quantidade += quantidade;
     }
 }

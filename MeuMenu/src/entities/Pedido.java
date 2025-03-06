@@ -50,6 +50,7 @@ public class Pedido {
         }
     }
 
+    // alterar status
     public void alterarStatus(StatusPedido novoStatus) {
         this.status = novoStatus;
         System.out.println("Status do pedido atualizado para: " + status);
@@ -97,5 +98,8 @@ public class Pedido {
         }
     }
 
+    public void consumirIngrediente() {}
+
     // TODO implementar mesma lógica dos pratos para os clientes (buscar o cliente que realizou o pedido na lista de clientes)
+    // TODO consumirIngrediente() vai ser um metodo da classe Pedido
 }

@@ -57,7 +57,7 @@ public class Prato {
     public void obterIngredientes() {
         System.out.println("Ingredientes do prato " + nome + ":");
         for (IngredienteQuantidade iq : ingredientes) {
-            System.out.println("- " + iq.getIngrediente().getNome() + ": " + iq.getQuantidade() + " " + iq.getIngrediente().getUnidade());
+            System.out.printf("- %s : %.2f %s%n", iq.getIngrediente().getNome(), iq.getQuantidade(), iq.getIngrediente().getUnidade());
         }
     }
 
@@ -80,4 +80,5 @@ public class Prato {
     }
 
     // TODO criar um método que permita atualizar as quantidades de um determinado ingrediente em um prato e um método que permita adicionar um novo ingrediente a lista
+    // TODO criar uma sobrecarga que permita criar um prato passando ingredientes que já existem no Estoque (lógica semelhante a do pedido)
 }
