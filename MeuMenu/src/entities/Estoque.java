@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Estoque {
 
-    List<IngredienteQuantidade> ingredientes; // ingredientes e suas quantidades
+    private List<IngredienteQuantidade> ingredientes; // ingredientes e suas quantidades
 
     public Estoque() {
         this.ingredientes = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Estoque {
             }
         }
         if (ingredienteParaReabastecer != null) {
-            ingredienteParaReabastecer.atualizarQuantidade(quantidade);
+            ingredienteParaReabastecer.aumentarQuantidade(quantidade);
             System.out.printf("%s reabastecido(a) no estoque. Quantidade atualizada: %.2f %s%n", ingredienteParaReabastecer.getIngrediente().getNome(), ingredienteParaReabastecer.getQuantidade(), ingredienteParaReabastecer.getIngrediente().getUnidade());
         } else {
             System.out.println("Ingrediente não encontrado no estoque.");

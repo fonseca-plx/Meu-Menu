@@ -4,6 +4,7 @@ import entities.enums.StatusPedido;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Pedido {
 
@@ -14,7 +15,7 @@ public class Pedido {
     private StatusPedido status;
 
     // Construtor que permite criar um pedido informando uma lista de IDs de pratos já adicionados ao Menu
-    public Pedido(int id, Cliente cliente, Menu menu, List<Integer> idsPratos) {
+    public Pedido(int id, Cliente cliente, Menu menu, Estoque estoque, List<Integer> idsPratos) {
         this.id = id;
         this.cliente = cliente;
         this.pratos = new ArrayList<>();
@@ -26,9 +27,10 @@ public class Pedido {
             }
         }
         calcularTotal();
+        consumirIngredientes(estoque);
     }
 
-    // Construtor que permite que um pedido seja realizado por um cliente não informado
+    // Construtor que permite que um pedido seja realizado por um cliente não cadastrado
     public Pedido(int id, Menu menu, List<Integer> idsPratos) {
         this.id = id;
         this.pratos = new ArrayList<>();
@@ -40,14 +42,6 @@ public class Pedido {
             }
         }
         calcularTotal();
-    }
-
-    // calcular o total do pedido
-    private void calcularTotal() {
-        total = 0.0;
-        for (Prato prato : pratos) {
-            total += prato.getPreco();
-        }
     }
 
     // alterar status
@@ -68,37 +62,26 @@ public class Pedido {
         }
     }
 
-    // adicionar um prato ao pedido a partir do menu
-    public void adicionarPrato(Menu menu, int idPrato) {
-        Prato prato = menu.buscarPratoPorId(idPrato);
-        if (prato != null) {
-            pratos.add(prato);
+    // calcular o total do pedido
+    private void calcularTotal() {
+        total = 0.0;
+        for (Prato prato : pratos) {
             total += prato.getPreco();
-            System.out.println("Prato adicionado ao pedido: " + prato.getNome());
-        } else {
-            System.out.println("Prato não encontrado no menu.");
         }
     }
 
-    // remover um prato do pedido
-    public void removerPrato(int idPrato) {
-        Prato pratoParaRemover = null;
+    private void consumirIngredientes(Estoque estoque) {
         for (Prato prato : pratos) {
-            if (prato.getId() == idPrato) {
-                pratoParaRemover = prato;
-                break;
+            for (IngredienteQuantidade iq : prato.getIngredientes()) {  // obtem a lista de ingredientes de cada prato que compõe o pedido
+                for (IngredienteQuantidade iq2 : estoque.getIngredientes()) {
+                    if (Objects.equals(iq2.getIngrediente().getNome(), iq.getIngrediente().getNome())) {
+                        iq2.reduzirQuantidade(iq.getQuantidade());
+                    }
+                    System.out.printf("%s consumido(a) do estoque. Quantidade atualizada: %.2f %s%n", iq2.getIngrediente().getNome(), iq2.getQuantidade(), iq2.getIngrediente().getUnidade());
+                }
             }
         }
-        if (pratoParaRemover != null) {
-            pratos.remove(pratoParaRemover);
-            total -= pratoParaRemover.getPreco();
-            System.out.println("Prato removido do pedido: " + pratoParaRemover.getNome());
-        } else {
-            System.out.println("Prato não encontrado no pedido.");
-        }
     }
-
-    public void consumirIngrediente() {}
 
     // TODO implementar mesma lógica dos pratos para os clientes (buscar o cliente que realizou o pedido na lista de clientes)
     // TODO consumirIngrediente() vai ser um metodo da classe Pedido

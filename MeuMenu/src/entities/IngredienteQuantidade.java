@@ -20,7 +20,15 @@ public class IngredienteQuantidade {
     }
 
     // incrementar a quantidade de um ingrediente no estoque ou em um prato
-    public void atualizarQuantidade(double quantidade) {
+    public void aumentarQuantidade(double quantidade) {
         this.quantidade += quantidade;
+    }
+
+    public void reduzirQuantidade(double quantidade) {
+        if (this.quantidade >= quantidade) {
+            this.quantidade -= quantidade;
+        } else {
+            System.out.println("Erro: Quantidade insuficiente no estoque.");
+        }
     }
 }

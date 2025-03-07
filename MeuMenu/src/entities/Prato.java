@@ -53,6 +53,10 @@ public class Prato {
         this.descricao = descricao;
     }
 
+    public List<IngredienteQuantidade> getIngredientes() {
+        return ingredientes;
+    }
+
     // exibir os ingredientes e suas quantidades
     public void obterIngredientes() {
         System.out.println("Ingredientes do prato " + nome + ":");
