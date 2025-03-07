@@ -1,5 +1,7 @@
 package entities;
 
+import entities.enums.StatusPrato;
+
 import java.util.List;
 
 public class Prato {
@@ -8,8 +10,8 @@ public class Prato {
     private String nome;
     private double preco;
     private String descricao;
-
     private List<IngredienteQuantidade> ingredientes; // lista de ingredientes com suas respectivas quantidades
+    private StatusPrato status;
 
     // o usuário pode optar por criar um prato sem passar a descrição no momento em que criar o prato
     public Prato(int id, String nome, double preco, List<IngredienteQuantidade> ingredientes) {
@@ -17,6 +19,7 @@ public class Prato {
         this.nome = nome;
         this.preco = preco;
         this.ingredientes = ingredientes;
+        this.status = StatusPrato.DISPONIVEL;
     }
 
     public Prato(int id, String nome, double preco, String descricao, List<IngredienteQuantidade> ingredientes) {
@@ -25,6 +28,7 @@ public class Prato {
         this.preco = preco;
         this.descricao = descricao;
         this.ingredientes = ingredientes;
+        this.status = StatusPrato.DISPONIVEL;
     }
 
     public int getId() {
@@ -55,6 +59,27 @@ public class Prato {
 
     public List<IngredienteQuantidade> getIngredientes() {
         return ingredientes;
+    }
+
+    public StatusPrato getStatus() {
+        return status;
+    }
+
+    // se um dos ingredientes que compoe o prato estiverem em falta no estoque o status será alterado para INDISPONIVEL
+    public void atualizarStatus(Estoque estoque) {
+        for (IngredienteQuantidade iq : ingredientes) {
+            IngredienteQuantidade ingredienteNoEstoque = estoque.buscarIngredientePorId(iq.getIngrediente().getId());
+
+            if (ingredienteNoEstoque == null || ingredienteNoEstoque.getQuantidade() < iq.getQuantidade()) {
+                this.status = StatusPrato.INDISPONIVEL;
+                return;
+            }
+        }
+        this.status = StatusPrato.DISPONIVEL;
+    }
+
+    public boolean isDisponivel() {
+        return this.status == StatusPrato.DISPONIVEL;
     }
 
     // exibir os ingredientes e suas quantidades

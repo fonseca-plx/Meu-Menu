@@ -20,21 +20,21 @@ public class Menu {
         System.out.println("Prato adicionado ao menu: " + prato.getNome());
     }
 
-    // remove um prato do Menu a partir do seu id
-    public void excluirPrato(int id) {
-        Prato pratoParaRemover = null;
-        for (Prato p : pratos) {
-            if (p.getId() == id) {
-                pratoParaRemover = p;
-                break;
+    public void atualizarDisponibilidade(Estoque estoque) {
+        for (Prato prato : pratos) {
+            prato.atualizarStatus(estoque);
+        }
+    }
+
+    // lista apenas os pratos disponíveis
+    public List<Prato> getPratosDisponiveis() {
+        List<Prato> pratosDisponiveis = new ArrayList<>();
+        for (Prato prato : pratos) {
+            if (prato.isDisponivel()) {
+                pratosDisponiveis.add(prato);
             }
         }
-        if (pratoParaRemover != null) {
-            pratos.remove(pratoParaRemover);
-            System.out.println("Prato removido do menu: " + pratoParaRemover.getNome());
-        } else {
-            System.out.println("Prato não encontrado!");
-        }
+        return pratosDisponiveis;
     }
 
     public void consultarMenu() {
@@ -42,8 +42,8 @@ public class Menu {
             System.out.println("O menu está vazio.");
         } else {
             System.out.println("Menu do Restaurante:");
-            for (Prato p : pratos) {
-                System.out.println("- " + p.getNome() + " | Preço: R$ " + p.getPreco());
+            for (Prato prato : getPratosDisponiveis()) {
+                System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
             }
         }
     }
@@ -51,7 +51,7 @@ public class Menu {
     // Buscar um prato pelo nome
     public Prato buscarPratoPorNome(String nome) {
         for (Prato prato : pratos) {
-            if (prato.getNome().equalsIgnoreCase(nome)) {
+            if (prato.getNome().equalsIgnoreCase(nome) && prato.isDisponivel()) {
                 return prato;
             }
         }
@@ -61,7 +61,7 @@ public class Menu {
     // Buscar um prato pelo ID
     public Prato buscarPratoPorId(int id) {
         for (Prato prato : pratos) {
-            if (prato.getId() == id) {
+            if (prato.getId() == id && prato.isDisponivel()) {
                 return prato;
             }
         }

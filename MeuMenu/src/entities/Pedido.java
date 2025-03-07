@@ -13,35 +13,28 @@ public class Pedido {
     private List<Prato> pratos;
     private double total;
     private StatusPedido status;
+    private Estoque estoque;
 
-    // Construtor que permite criar um pedido informando uma lista de IDs de pratos já adicionados ao Menu
-    public Pedido(int id, Cliente cliente, Menu menu, Estoque estoque, List<Integer> idsPratos) {
+    public Pedido(int id, Cliente cliente, Estoque estoque) {
         this.id = id;
         this.cliente = cliente;
         this.pratos = new ArrayList<>();
+        this.total = 0.0;
         this.status = StatusPedido.PENDENTE;
-        for (Integer idPrato : idsPratos) {
-            Prato prato = menu.buscarPratoPorId(idPrato);
-            if (prato != null) {
-                pratos.add(prato);
-            }
-        }
-        calcularTotal();
-        consumirIngredientes(estoque);
+        this.estoque = estoque;
     }
 
-    // Construtor que permite que um pedido seja realizado por um cliente não cadastrado
-    public Pedido(int id, Menu menu, List<Integer> idsPratos) {
-        this.id = id;
-        this.pratos = new ArrayList<>();
-        this.status = StatusPedido.PENDENTE;
-        for (Integer idPrato : idsPratos) {
-            Prato prato = menu.buscarPratoPorId(idPrato);
-            if (prato != null) {
-                pratos.add(prato);
-            }
+    public boolean adicionarPrato(Menu menu, String nomePrato) {
+        Prato prato = menu.buscarPratoPorNome(nomePrato);
+        if (prato != null) {
+            pratos.add(prato);
+            total += prato.getPreco();
+            estoque.consumirIngredientes(prato);
+            System.out.println("Prato adicionado ao pedido: " + prato.getNome());
+            return true;
         }
-        calcularTotal();
+        System.out.println("Prato indisponível ou não encontrado.");
+        return false;
     }
 
     // alterar status
@@ -59,27 +52,6 @@ public class Pedido {
         System.out.println("Detalhes do pedido:");
         for (Prato prato : pratos) {
             System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
-        }
-    }
-
-    // calcular o total do pedido
-    private void calcularTotal() {
-        total = 0.0;
-        for (Prato prato : pratos) {
-            total += prato.getPreco();
-        }
-    }
-
-    private void consumirIngredientes(Estoque estoque) {
-        for (Prato prato : pratos) {
-            for (IngredienteQuantidade iq : prato.getIngredientes()) {  // obtem a lista de ingredientes de cada prato que compõe o pedido
-                for (IngredienteQuantidade iq2 : estoque.getIngredientes()) {
-                    if (Objects.equals(iq2.getIngrediente().getNome(), iq.getIngrediente().getNome())) {
-                        iq2.reduzirQuantidade(iq.getQuantidade());
-                    }
-                    System.out.printf("%s consumido(a) do estoque. Quantidade atualizada: %.2f %s%n", iq2.getIngrediente().getNome(), iq2.getQuantidade(), iq2.getIngrediente().getUnidade());
-                }
-            }
         }
     }
 
