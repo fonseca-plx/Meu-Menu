@@ -26,6 +26,7 @@ public class Estoque {
 
     // Consome ingredientes ao adicionar um prato ao pedido
     public boolean consumirIngredientes(Prato prato) {
+        // verificar se todos os ingredientes do prato existem e estão em quantidade suficiente no estoque para fazer o prato
         for (IngredienteQuantidade iq : prato.getIngredientes()) {
             IngredienteQuantidade ingredienteNoEstoque = buscarIngredientePorId(iq.getIngrediente().getId());
 

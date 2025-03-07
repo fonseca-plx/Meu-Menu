@@ -46,4 +46,13 @@ public class ListaClientes {
             }
         }
     }
+
+    public Cliente buscarClientePorId(int id) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id) {
+                return cliente;
+            }
+        }
+        return null;
+    }
 }

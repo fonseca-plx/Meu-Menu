@@ -4,7 +4,6 @@ import entities.enums.StatusPedido;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Pedido {
 
@@ -15,6 +14,16 @@ public class Pedido {
     private StatusPedido status;
     private Estoque estoque;
 
+    // construtor que possibilita criar um pedido sem informar o cliente
+    public Pedido(int id, Estoque estoque) {
+        this.id = id;
+        this.pratos = new ArrayList<>();
+        this.total = 0.0;
+        this.status = StatusPedido.PENDENTE;
+        this.estoque = estoque;
+    }
+
+    // construtor que possibilita criar um pedido informando um novo cliente
     public Pedido(int id, Cliente cliente, Estoque estoque) {
         this.id = id;
         this.cliente = cliente;
@@ -24,18 +33,32 @@ public class Pedido {
         this.estoque = estoque;
     }
 
+    // construtor que possibilita criar um pedido por um cliente já existente
+    public Pedido(int id, Estoque estoque, ListaClientes clientes, int idCliente) {
+        this.id = id;
+        this.pratos = new ArrayList<>();
+        this.total = 0.0;
+        this.status = StatusPedido.PENDENTE;
+        this.estoque = estoque;
+        Cliente cliente = clientes.buscarClientePorId(idCliente);
+        if (cliente != null) {
+            this.cliente = cliente;
+        }
+    }
+
     public boolean adicionarPrato(Menu menu, String nomePrato) {
         Prato prato = menu.buscarPratoPorNome(nomePrato);
-        if (prato != null) {
+        if (prato != null && estoque.consumirIngredientes(prato)) {
             pratos.add(prato);
             total += prato.getPreco();
-            estoque.consumirIngredientes(prato);
             System.out.println("Prato adicionado ao pedido: " + prato.getNome());
             return true;
         }
         System.out.println("Prato indisponível ou não encontrado.");
         return false;
     }
+
+    // TODO criar metodo adicionarPratos() passando uma lista de pratos ao invés de passar apenas um prato por vez
 
     // alterar status
     public void alterarStatus(StatusPedido novoStatus) {
@@ -54,7 +77,4 @@ public class Pedido {
             System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
         }
     }
-
-    // TODO implementar mesma lógica dos pratos para os clientes (buscar o cliente que realizou o pedido na lista de clientes)
-    // TODO consumirIngrediente() vai ser um metodo da classe Pedido
 }

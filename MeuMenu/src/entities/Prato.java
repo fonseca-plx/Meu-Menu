@@ -22,6 +22,7 @@ public class Prato {
         this.status = StatusPrato.DISPONIVEL;
     }
 
+    // o usuário pode criar um prato passando ingredientes novos, que ainda não existem no estoque
     public Prato(int id, String nome, double preco, String descricao, List<IngredienteQuantidade> ingredientes) {
         this.id = id;
         this.nome = nome;
@@ -29,6 +30,22 @@ public class Prato {
         this.descricao = descricao;
         this.ingredientes = ingredientes;
         this.status = StatusPrato.DISPONIVEL;
+    }
+
+    // o usuário pode criar um prato com ingredientes que já existem no estoque
+    public Prato(int id, String nome, double preco, String descricao, Estoque estoque, List<Integer> idsIngredientes, double quantidade) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.descricao = descricao;
+        this.status = StatusPrato.DISPONIVEL;
+        for (Integer idIngrediente : idsIngredientes) {
+            IngredienteQuantidade ingrediente = estoque.buscarIngredientePorId(idIngrediente);
+            if (ingrediente != null) {
+                ingrediente.setQuantidade(quantidade); // quantidade necessária para fazer o prato
+                ingredientes.add(ingrediente);
+            }
+        }
     }
 
     public int getId() {
@@ -109,5 +126,4 @@ public class Prato {
     }
 
     // TODO criar um método que permita atualizar as quantidades de um determinado ingrediente em um prato e um método que permita adicionar um novo ingrediente a lista
-    // TODO criar uma sobrecarga que permita criar um prato passando ingredientes que já existem no Estoque (lógica semelhante a do pedido)
 }

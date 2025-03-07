@@ -1,6 +1,6 @@
 package entities;
 
-// Classe auxiliar entre a classe Prato e a classe Ingrediente
+// Classe auxiliar entre as classes Prato, Estoque e Ingrediente
 public class IngredienteQuantidade {
 
     private Ingrediente ingrediente;
@@ -19,11 +19,16 @@ public class IngredienteQuantidade {
         return quantidade;
     }
 
+    public void setQuantidade(double quantidade) {
+        this.quantidade = quantidade;
+    }
+
     // incrementar a quantidade de um ingrediente no estoque ou em um prato
     public void aumentarQuantidade(double quantidade) {
         this.quantidade += quantidade;
     }
 
+    // reduzir quantidade de um ingrediente no estoque ao realizar um pedido ou reduzir quantidade do ingrediente em um prato
     public void reduzirQuantidade(double quantidade) {
         if (this.quantidade >= quantidade) {
             this.quantidade -= quantidade;
