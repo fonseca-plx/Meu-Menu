@@ -20,6 +20,22 @@ public class Menu {
         System.out.println("Prato adicionado ao menu: " + prato.getNome());
     }
 
+    public void excluirPrato(int id) {
+        Prato pratoParaRemover = null;
+        for (Prato prato : pratos) {
+            if (prato.getId() == id) {
+                pratoParaRemover = prato;
+                break;
+            }
+        }
+        if (pratoParaRemover != null) {
+            pratos.remove(pratoParaRemover);
+            System.out.printf("O prato %s foi removido do Menu.%n", pratoParaRemover.getNome());
+        } else {
+            System.out.println("Prato não encontrado.");
+        }
+    }
+
     public void atualizarDisponibilidade(Estoque estoque) {
         for (Prato prato : pratos) {
             prato.atualizarStatus(estoque);

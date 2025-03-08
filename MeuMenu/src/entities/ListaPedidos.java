@@ -32,4 +32,13 @@ public class ListaPedidos {
             }
         }
     }
+
+    public Pedido buscarPedidoPorId(int id) {
+        for (Pedido pedido : pedidos) {
+            if (pedido.getId() == id) {
+                return pedido;
+            }
+        }
+        return null;
+    }
 }
