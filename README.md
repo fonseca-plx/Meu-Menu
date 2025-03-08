@@ -7,8 +7,12 @@ classDiagram
     class Menu {
         -List~Prato~ pratos
         +adicionarPrato(prato: Prato) void
-        +excluirPrato(prato: Prato) void
+        +excluirPrato(id: int) void
+        +atualizarDisponibilidade(estoque: Estoque) void
+        +getPratosDisponiveis() List~Prato~
         +consultarMenu() void
+        +buscarPratoPorNome(nome: String) Prato
+        +buscarPratoPorId(id: int) Prato
     }
 
     class Prato {
@@ -17,6 +21,9 @@ classDiagram
         -double preco
         -String descricao
         -List~IngredienteQuantidade~ ingredientes
+        -StatusPrato status
+        +atualizarStatus(estoque: Estoque) void
+        +isDisponivel() boolean
         +obterIngredientes() void
         +calcularCusto() double
         +consultar() void
@@ -32,13 +39,16 @@ classDiagram
     class IngredienteQuantidade {
         -Ingrediente ingrediente
         -double quantidade
+        +aumentarQuantidade(quantidade: double) void
+        +reduzirQuantidade(quantidade: double) void
     }
 
     class ListaClientes {
         -List~Cliente~ clientes
         +cadastrarCliente(cliente: Cliente) void
-        +excluirCliente(cliente: Cliente) void
-        +consultarListaClientes() void
+        +excluirCliente(id: int) void
+        +consultarClientes() void
+        +buscarClientePorId(id: int) Cliente
     }
 
     class Cliente {
@@ -48,32 +58,32 @@ classDiagram
         -String email
     }
 
+    class ListaPedidos {
+        -List~Pedido~ pedidos
+        +realizarPedido(pedido: Pedido) void
+        +buscarPedidoPorId(id: int) Pedido
+        +consultarPedidos() void
+    }
+
     class Pedido {
         -int id
         -Cliente cliente
         -List~Prato~ pratos
         -double total
-        -String status
-        +adicionarPrato() void
-        +removerPrato() void
-        +calcularTotal() double
-        +alterarStatus() void
+        -StatusPedido status
+        -Estoque estoque
+        +adicionarPrato(menu: Menu, nomePrato: String) boolean
+        +alterarStatus(novoStatus: StatusPedido) void
+        +consultar() void
     }
 
     class Estoque {
-        -List~ItemEstoque~ itens
-        +adicionarItem() void
-        +consultarItem() ItemEstoque
-        +consumirItem() void
-    }
-
-    class ItemEstoque {
-        -int id
-        -String nome
-        -double quantidade
-        -String unidade
-        +adicionarQuantidade() void
-        +reduzirQuantidade() void
+        -List~IngredienteQuantidade~ ingredientes
+        +consumirIngredientes(prato: Prato) boolean
+        +adicionarIngrediente(ingrediente: IngredienteQuantidade) void
+        +reabastecerEstoque(id: int, quantidade: double, menu: Menu) void
+        +buscarIngredientePorId(id: int) IngredienteQuantidade
+        +consultarEstoque() void
     }
 
     class StatusPedido {
@@ -82,13 +92,24 @@ classDiagram
         EM_PREPARACAO
         PRONTO
         ENTREGUE
+        CANCELADO
     }
 
+    class StatusPrato {
+        <<enum>>
+        DISPONIVEL
+        INDISPONIVEL
+    }
+
+    Menu "1" -- "N" Prato : gerencia
+    ListaClientes "1" -- "N" Cliente : gerencia
+    ListaPedidos "1" -- "N" Pedido : gerencia
     Prato "N" -- "N" IngredienteQuantidade : possui
+    Prato "1" -- "1" StatusPrato : possui
     IngredienteQuantidade "N" -- "1" Ingrediente : referencia
     Pedido "N" -- "M" Prato : contém
     Pedido "1" -- "1" StatusPedido : possui
     Cliente "1" -- "N" Pedido : realiza
-    Estoque "1" -- "N" ItemEstoque : gerencia
-    Ingrediente "N" -- "1" ItemEstoque : corresponde
+    Estoque "1" -- "N" IngredienteQuantidade : gerencia
+    Pedido --> Estoque : usa
 ```
