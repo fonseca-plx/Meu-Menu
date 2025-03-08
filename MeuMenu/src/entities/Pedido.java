@@ -46,6 +46,26 @@ public class Pedido {
         }
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public List<Prato> getPratos() {
+        return pratos;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public StatusPedido getStatus() {
+        return status;
+    }
+
     public boolean adicionarPrato(Menu menu, String nomePrato) {
         Prato prato = menu.buscarPratoPorNome(nomePrato);
         if (prato != null && estoque.consumirIngredientes(prato)) {

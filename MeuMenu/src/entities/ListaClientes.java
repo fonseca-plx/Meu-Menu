@@ -36,7 +36,7 @@ public class ListaClientes {
         }
     }
 
-    public void consultarListaClientes() {
+    public void consultarClientes() {
         if (clientes.isEmpty()) {
             System.out.println("A lista de clientes está vazia.");
         } else {

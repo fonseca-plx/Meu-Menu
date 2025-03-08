@@ -15,5 +15,21 @@ public class ListaPedidos {
         return pedidos;
     }
 
-    // TODO add metodos realizarPedido() e consultarPedidos()
+    public void realizarPedido(Pedido pedido) {
+        pedidos.add(pedido);
+        System.out.println("Pedido realizado com sucesso! Número do pedido: " + pedido.getId());
+    }
+
+    public void consultarPedidos() {
+        if (pedidos.isEmpty()) {
+            System.out.println("O registro de pedidos está vazio.");
+        } else {
+            System.out.println("Pedidos:");
+            System.out.println();
+            for (Pedido pedido : pedidos) {
+                System.out.println("-----------------------------------");
+                pedido.consultar();
+            }
+        }
+    }
 }
