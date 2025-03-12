@@ -3,10 +3,7 @@ package application;
 import entities.*;
 import entities.enums.StatusPedido;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,6 +18,21 @@ public class Main {
 
         int opcao;
         char resposta;
+
+        // inicializa objetos padrão
+        estoque.adicionarIngrediente(new IngredienteQuantidade(new Ingrediente(1, "Carne", "kgs", 42.90), 50.0));
+        estoque.adicionarIngrediente(new IngredienteQuantidade(new Ingrediente(2, "Frango", "kgs", 34.90), 50.0));
+        estoque.adicionarIngrediente(new IngredienteQuantidade(new Ingrediente(3, "Queijo Coalho", "kgs", 39.90), 50.0));
+        estoque.adicionarIngrediente(new IngredienteQuantidade(new Ingrediente(4, "Pão de alho", "unidade(s)", 2.90), 30.0));
+
+        menu.adicionarPrato(new Prato(1, "Espetinho de Carne", 12.90, "Espetinho de carne tradicional", estoque, Arrays.asList(1), Arrays.asList(0.12)));
+        menu.adicionarPrato(new Prato(2, "Espetinho de frango", 9.90, "Espetinho de frango tradicional", estoque, Arrays.asList(2), Arrays.asList(0.12)));
+        menu.adicionarPrato(new Prato(3, "Espetinho de queijo coalho", 7.80, "Espetinho de queijo coalho tradicional", estoque, Arrays.asList(3), Arrays.asList(0.1)));
+        menu.adicionarPrato(new Prato(4, "Pão de alho", 8.90, "Pão de alho tradicional", estoque, Arrays.asList(4), Arrays.asList(1.0)));
+
+        clientes.cadastrarCliente(new Cliente(1, "Alceu Valença", "84 90587121", "julio@email.com"));
+        clientes.cadastrarCliente(new Cliente(2, "Carmen Miranda", "84 98276235", "carmen@email.com"));
+        clientes.cadastrarCliente(new Cliente(3, "Roberto Carlos", "84 96782151", "roberto@email.com"));
 
         boolean iniciar = true;
 
