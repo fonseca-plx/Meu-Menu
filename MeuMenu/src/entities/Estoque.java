@@ -41,8 +41,6 @@ public class Estoque {
             IngredienteQuantidade ingredienteNoEstoque = buscarIngredientePorId(iq.getIngrediente().getId());
             ingredienteNoEstoque.reduzirQuantidade(iq.getQuantidade());
         }
-
-        System.out.println("Ingredientes consumidos para o prato: " + prato.getNome());
         return true;
     }
 
@@ -57,9 +55,9 @@ public class Estoque {
         if (ingredientes.isEmpty()) {
             System.out.println("O estoque está vazio.");
         } else {
-            System.out.println("Ingredientes no estoque:");
+            System.out.println("Ingredientes no estoque:\n");
             for (IngredienteQuantidade iq : ingredientes) {
-                System.out.printf("- %s | Quantidade: %.2f %s %n", iq.getIngrediente().getNome(), iq.getQuantidade(), iq.getIngrediente().getUnidade());
+                System.out.printf("- ID: %d | Nome: %s | Quantidade: %.2f %s %n", iq.getIngrediente().getId(), iq.getIngrediente().getNome(), iq.getQuantidade(), iq.getIngrediente().getUnidade());
             }
         }
     }

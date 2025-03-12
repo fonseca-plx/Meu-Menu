@@ -2,6 +2,7 @@ package entities;
 
 import entities.enums.StatusPrato;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Prato {
@@ -13,37 +14,23 @@ public class Prato {
     private List<IngredienteQuantidade> ingredientes; // lista de ingredientes com suas respectivas quantidades
     private StatusPrato status;
 
-    // o usuário pode optar por criar um prato sem passar a descrição no momento em que criar o prato
-    public Prato(int id, String nome, double preco, List<IngredienteQuantidade> ingredientes) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.ingredientes = ingredientes;
-        this.status = StatusPrato.DISPONIVEL;
-    }
-
-    // o usuário pode criar um prato passando ingredientes novos, que ainda não existem no estoque
-    public Prato(int id, String nome, double preco, String descricao, List<IngredienteQuantidade> ingredientes) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.descricao = descricao;
-        this.ingredientes = ingredientes;
-        this.status = StatusPrato.DISPONIVEL;
-    }
-
-    // o usuário pode criar um prato com ingredientes que já existem no estoque
-    public Prato(int id, String nome, double preco, String descricao, Estoque estoque, List<Integer> idsIngredientes, double quantidade) {
+    // o usuário cria um prato com ingredientes que já existem no estoque
+    public Prato(int id, String nome, double preco, String descricao, Estoque estoque, List<Integer> idsIngredientes, List<Double> quantidades) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;
         this.status = StatusPrato.DISPONIVEL;
-        for (Integer idIngrediente : idsIngredientes) {
-            IngredienteQuantidade ingrediente = estoque.buscarIngredientePorId(idIngrediente);
-            if (ingrediente != null) {
-                ingrediente.setQuantidade(quantidade); // quantidade necessária para fazer o prato
-                ingredientes.add(ingrediente);
+        this.ingredientes = new ArrayList<>();
+        for (int i = 0; i < idsIngredientes.size(); i++) {
+            Integer idIngrediente = idsIngredientes.get(i);
+            IngredienteQuantidade ingredienteNoEstoque = estoque.buscarIngredientePorId(idIngrediente);
+            if (ingredienteNoEstoque != null) {
+                Double quantidade = quantidades.get(i);
+                IngredienteQuantidade ingredienteParaPrato = new IngredienteQuantidade(ingredienteNoEstoque.getIngrediente(), quantidade); // novo objeto IngredienteQuantidade para não alterar a quantidade do ingrediente no estoque
+                ingredientes.add(ingredienteParaPrato);
+            } else {
+                throw new IllegalArgumentException(String.format("ID %d não encontrado. Consulte o Estoque novamente!", idIngrediente));
             }
         }
     }
@@ -118,10 +105,11 @@ public class Prato {
 
     // exibir os detalhes do prato
     public void consultar() {
+        System.out.println("ID: " + id);
         System.out.println("Prato: " + nome);
         System.out.println("Descrição: " + descricao);
-        System.out.println("Preço: R$ " + preco);
-        System.out.println("Custo de produção: R$ " + calcularCusto());
+        System.out.println("Preço: R$ " + String.format("%.2f", preco));
+        System.out.println("Custo de produção: R$ " + String.format("%.2f", calcularCusto()));
         obterIngredientes();
     }
 

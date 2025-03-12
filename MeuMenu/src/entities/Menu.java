@@ -17,23 +17,12 @@ public class Menu {
 
     public void adicionarPrato(Prato prato) {
         pratos.add(prato);
-        System.out.println("Prato adicionado ao menu: " + prato.getNome());
+        System.out.println("\nPrato adicionado ao menu: " + prato.getNome());
     }
 
-    public void excluirPrato(int id) {
-        Prato pratoParaRemover = null;
-        for (Prato prato : pratos) {
-            if (prato.getId() == id) {
-                pratoParaRemover = prato;
-                break;
-            }
-        }
-        if (pratoParaRemover != null) {
-            pratos.remove(pratoParaRemover);
-            System.out.printf("O prato %s foi removido do Menu.%n", pratoParaRemover.getNome());
-        } else {
-            System.out.println("Prato não encontrado.");
-        }
+    public void excluirPrato(Prato prato) {
+        pratos.remove(prato);
+        System.out.printf("%nO prato %s foi removido do Menu.%n", prato.getNome());
     }
 
     public void atualizarDisponibilidade(Estoque estoque) {
@@ -57,21 +46,13 @@ public class Menu {
         if (pratos.isEmpty()) {
             System.out.println("O menu está vazio.");
         } else {
-            System.out.println("Menu do Restaurante:");
+            System.out.println("Menu do Restaurante:\n");
             for (Prato prato : getPratosDisponiveis()) {
-                System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
+                System.out.println("--------------------------------------------------------------");
+                prato.consultar();
             }
+            System.out.println("--------------------------------------------------------------");
         }
-    }
-
-    // Buscar um prato pelo nome
-    public Prato buscarPratoPorNome(String nome) {
-        for (Prato prato : pratos) {
-            if (prato.getNome().equalsIgnoreCase(nome) && prato.isDisponivel()) {
-                return prato;
-            }
-        }
-        return null;
     }
 
     // Buscar um prato pelo ID

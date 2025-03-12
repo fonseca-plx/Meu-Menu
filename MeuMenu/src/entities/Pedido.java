@@ -43,6 +43,8 @@ public class Pedido {
         Cliente cliente = clientes.buscarClientePorId(idCliente);
         if (cliente != null) {
             this.cliente = cliente;
+        } else {
+            throw new IllegalArgumentException("Cliente não encontrado. Considere cadastrá-lo enquanto faz o pedido!");
         }
     }
 
@@ -66,16 +68,15 @@ public class Pedido {
         return status;
     }
 
-    public boolean adicionarPrato(Menu menu, String nomePrato) {
-        Prato prato = menu.buscarPratoPorNome(nomePrato);
-        if (prato != null && estoque.consumirIngredientes(prato)) {
+    public void adicionarPrato(Prato prato) {
+        if (estoque.consumirIngredientes(prato)) {
             pratos.add(prato);
             total += prato.getPreco();
-            System.out.println("Prato adicionado ao pedido: " + prato.getNome());
-            return true;
+            System.out.println("\nPrato adicionado ao pedido: " + prato.getNome());
+            System.out.println();
+            return;
         }
         System.out.println("Prato indisponível ou não encontrado.");
-        return false;
     }
 
     // TODO criar metodo adicionarPratos() passando uma lista de pratos ao invés de passar apenas um prato por vez
@@ -83,18 +84,20 @@ public class Pedido {
     // alterar status
     public void alterarStatus(StatusPedido novoStatus) {
         this.status = novoStatus;
-        System.out.println("Status do pedido atualizado para: " + status);
+        System.out.println("\nStatus do pedido atualizado para: " + status + "\n");
     }
 
     // exibir os detalhes do pedido
     public void consultar() {
         System.out.println("ID do Pedido: " + id);
-        System.out.println("Cliente: " + cliente.getNome());
-        System.out.println("Total: R$ " + total);
+        if (cliente != null) {
+            System.out.println("Cliente: " + cliente.getNome());
+        }
+        System.out.println("Total: R$ " + String.format("%.2f", total));
         System.out.println("Status: " + status);
         System.out.println("Detalhes do pedido:");
         for (Prato prato : pratos) {
-            System.out.println("- " + prato.getNome() + " | R$ " + prato.getPreco());
+            System.out.println("- " + prato.getNome() + " | R$ " + String.format("%.2f", prato.getPreco()));
         }
     }
 }

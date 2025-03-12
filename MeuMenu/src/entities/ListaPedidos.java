@@ -17,19 +17,29 @@ public class ListaPedidos {
 
     public void realizarPedido(Pedido pedido) {
         pedidos.add(pedido);
-        System.out.println("Pedido realizado com sucesso! Número do pedido: " + pedido.getId());
+    }
+
+    public void adicionarPratos(int idPedido, Prato prato, int quantidade) {
+        Pedido pedido = buscarPedidoPorId(idPedido);
+        if (pedido != null) {
+            for (int i = 0; i < quantidade; i++) {
+                pedido.adicionarPrato(prato);
+            }
+        } else {
+            System.out.println("\nPedido não encontrado!");
+        }
     }
 
     public void consultarPedidos() {
         if (pedidos.isEmpty()) {
             System.out.println("O registro de pedidos está vazio.");
         } else {
-            System.out.println("Pedidos:");
-            System.out.println();
+            System.out.println("Pedidos:\n");
             for (Pedido pedido : pedidos) {
                 System.out.println("-----------------------------------");
                 pedido.consultar();
             }
+            System.out.println("-----------------------------------");
         }
     }
 
