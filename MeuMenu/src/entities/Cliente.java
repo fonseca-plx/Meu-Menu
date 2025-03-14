@@ -9,7 +9,7 @@ public class Cliente {
 
     public Cliente(int id, String nome, String telefone, String email) {
         this.id = id;
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
         this.telefone = telefone;
         this.email = email;
     }

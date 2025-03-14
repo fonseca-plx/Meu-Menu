@@ -71,6 +71,7 @@ public class Pedido {
     public void adicionarPrato(Prato prato) {
         if (estoque.consumirIngredientes(prato)) {
             pratos.add(prato);
+            prato.atualizarStatus(estoque);
             total += prato.getPreco();
             System.out.println("\nPrato adicionado ao pedido: " + prato.getNome());
             System.out.println();

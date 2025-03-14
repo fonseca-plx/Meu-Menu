@@ -17,7 +17,7 @@ public class Prato {
     // o usuário cria um prato com ingredientes que já existem no estoque
     public Prato(int id, String nome, double preco, String descricao, Estoque estoque, List<Integer> idsIngredientes, List<Double> quantidades) {
         this.id = id;
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
         this.preco = preco;
         this.descricao = descricao;
         this.status = StatusPrato.DISPONIVEL;

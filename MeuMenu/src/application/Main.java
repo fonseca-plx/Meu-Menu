@@ -28,8 +28,8 @@ public class Main {
             try {
                 System.out.println("O que você gostaria de fazer?\n");
                 System.out.println("1. Consultar o Menu do Restaurante\n2. Adicionar um novo prato ao Menu\n3. Excluir um prato do Menu\n4. Consultar Estoque de Ingredientes\n" +
-                        "5. Adicionar ingredientes ao Estoque\n6. Fazer um pedido\n7. Cancelar um pedido\n8. Consultar pedidos\n9. Alterar status de um Pedido\n" +
-                        "10. Cadastrar novo Cliente\n11. Consultar lista de Clientes\n12. Excluir Cliente\n13. Sair\n");
+                        "5. Adicionar novos ingredientes ao Estoque\n6. Reabastecer ingrediente no Estoque\n7. Fazer um pedido\n8. Cancelar um pedido\n9. Consultar pedidos\n" +
+                        "10. Alterar status de um Pedido\n11. Cadastrar novo Cliente\n12. Consultar lista de Clientes\n13. Excluir Cliente\n14. Sair\n");
                 System.out.print("Digite o número da tarefa: ");
                 opcao = sc.nextInt();
                 sc.nextLine();
@@ -186,7 +186,7 @@ public class Main {
                             System.out.println("Opção inválida!\n");
                         }
                         break;
-                    case 6:
+                    case 7:
                         System.out.println("Fazer um pedido\n");
                         if (!menu.getPratos().isEmpty()) {
                             System.out.print("O pedido será realizado por um cliente cadastrado? (S/N): ");
@@ -225,7 +225,7 @@ public class Main {
                             System.out.println("O menu está vazio.\n");
                         }
                         break;
-                    case 7:
+                    case 8:
                         System.out.println("Cancelar pedido\n");
                         if (!pedidos.getPedidos().isEmpty()) {
                             System.out.print("Informe o ID do pedido que deseja cancelar: ");
@@ -240,7 +240,7 @@ public class Main {
                             System.out.println("O registro de pedidos está vazio.\n");
                         }
                         break;
-                    case 8:
+                    case 9:
                         System.out.println("Consultar pedidos\n");
                         pedidos.consultarPedidos();
                         System.out.println("\n1. Voltar ao Menu Principal\n2. Encerrar\n");
@@ -256,7 +256,7 @@ public class Main {
                             System.out.println("Opção inválida!\n");
                         }
                         break;
-                    case 9:
+                    case 10:
                         System.out.println("Alterar status do pedido\n");
                         if (!pedidos.getPedidos().isEmpty()) {
                             pedidos.consultarPedidos();
@@ -291,17 +291,17 @@ public class Main {
                             System.out.println("O registro de pedidos está vazio.\n");
                         }
                         break;
-                    case 10:
+                    case 11:
                         System.out.println("Cadastrar novo Cliente");
                         clientes.cadastrarCliente(criarCliente(sc, clientes));
                         System.out.println();
                         break;
-                    case 11:
+                    case 12:
                         System.out.println("Consultar lista de Clientes\n");
                         clientes.consultarClientes();
                         System.out.println();
                         break;
-                    case 12:
+                    case 13:
                         System.out.println("Excluir Cliente\n");
                         if (!clientes.getClientes().isEmpty()) {
                             clientes.consultarClientes();
@@ -338,7 +338,7 @@ public class Main {
                             System.out.println("A lista de clientes está vazia.\n");
                         }
                         break;
-                    case 13:
+                    case 14:
                         iniciar = false;
                         break;
                     default:
@@ -365,7 +365,7 @@ public class Main {
         ids.clear(); // limpa a lista de números inteiros
         quantidades.clear(); // limpa a lista de números reais
         System.out.print("\nInforme o nome do prato: ");
-        String nome = sc.nextLine().toUpperCase();
+        String nome = sc.nextLine();
         System.out.print("Informe o preço do prato: ");
         double preco = sc.nextDouble();
         sc.nextLine();
@@ -384,7 +384,7 @@ public class Main {
 
     private static Ingrediente criarIngrediente(Scanner sc, Estoque estoque) {
         System.out.print("\nInforme o nome do ingrediente: ");
-        String nome = sc.nextLine().toUpperCase();
+        String nome = sc.nextLine();
         System.out.print("Informe a unidade de medida desse ingrediente: ");
         String unidade = sc.nextLine();
         System.out.print("Informe o custo por unidade desse ingrediente (apenas números): ");
@@ -406,7 +406,7 @@ public class Main {
 
     private static Cliente criarCliente(Scanner sc, ListaClientes clientes) {
         System.out.print("\nInforme o nome do cliente: ");
-        String nome = sc.nextLine().toUpperCase();
+        String nome = sc.nextLine();
         System.out.print("Informe seu número de telefone: ");
         String telefone = sc.nextLine();
         System.out.print("Informe seu e-mail: ");

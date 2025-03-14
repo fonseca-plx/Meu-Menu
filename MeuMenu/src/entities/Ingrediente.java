@@ -9,7 +9,7 @@ public class Ingrediente {
 
     public Ingrediente(int id, String nome, String unidade, double custoPorUnidade) {
         this.id = id;
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
         this.unidade = unidade;
         this.custoPorUnidade = custoPorUnidade;
     }
